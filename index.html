@@ -1,0 +1,63 @@
+<!doctype html>
+<meta charset=utf-8>
+<title>Random list choices</title>
+
+<style>
+	body {
+		text-align: center;
+		font-size: 150%;
+	}
+	.result {
+		list-style-type: none;
+		font-size: 300%;
+	}
+</style>
+
+<ul class=result>
+</ul>
+
+<p>
+	Use <a href="?john,marie,susan"><code>?john,marie,susan</code></a> at the end of the URL to get one random name.
+</p>
+
+<p>
+	Use <a href="?items=john,marie,susan&amp;count=2"><code>?items=john,marie,susan&amp;count=2</code></a> to get a few results at once.
+</p>
+
+<script>
+	const urlString = window.document.location.search.slice(1);
+
+	// query('name') returns the value of a query parameter
+	const query = (function(){
+		const params = {};
+		urlString
+			.split('&')
+			.map(str => str.split('='))
+			.forEach(arr => params[arr[0]] = arr[1]);
+		return name => params[name];
+	})();
+
+	// random(9) returns a number 0-9
+	const random = n => Math.floor(Math.random() * n);
+
+	// Returns a list of unique list elements count long
+	const sample = function(list, count){
+		if (count === 0)
+			return [];
+		var index = random(list.length);
+		var restOfTheList = list.slice(0, index).concat(list.slice(index + 1));
+		return [list[index]].concat(sample(restOfTheList, count - 1));
+	};
+
+	const items = (query('items') || urlString.replace(/&.+$/, '')).split(',');
+	const count = Math.min(items.length, query('count') || 1)
+
+	// Output
+	const result = document.querySelector('.result');
+	sample(items, count)
+		.forEach(function(item){
+			var li = document.createElement('li');
+			li.textContent = item;
+			result.appendChild(li);
+		});
+</script>
