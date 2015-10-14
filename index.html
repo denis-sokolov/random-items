@@ -50,7 +50,7 @@
 		return [list[index]].concat(sample(restOfTheList, count - 1));
 	};
 
-	const items = (query('items') || urlString.replace(/&.+$/, '')).split(',');
+	const items = (query('items') || urlString.replace(/&.+$/, '')).split(',').filter(x => x.trim());
 	const count = Math.min(items.length, query('count') || 1)
 
 	// Output
