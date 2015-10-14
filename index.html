@@ -12,18 +12,24 @@
 		list-style-type: none;
 		font-size: 300%;
 	}
+	.results-available .help {
+		font-size: 50%;
+		opacity: 0.8;
+	}
 </style>
 
 <ul class=result>
 </ul>
 
-<p>
-	Use <a href="?john,marie,susan"><code>?john,marie,susan</code></a> at the end of the URL to get one random name.
-</p>
+<div class=help>
+	<p>
+		Use <a href="?john,marie,susan"><code>?john,marie,susan</code></a> at the end of the URL to get one random name.
+	</p>
 
-<p>
-	Use <a href="?items=john,marie,susan&amp;count=2"><code>?items=john,marie,susan&amp;count=2</code></a> to get a few results at once.
-</p>
+	<p>
+		Use <a href="?items=john,marie,susan&amp;count=2"><code>?items=john,marie,susan&amp;count=2</code></a> to get a few results at once.
+	</p>
+</div>
 
 <script>
 	const urlString = window.document.location.search.slice(1);
@@ -61,4 +67,8 @@
 			li.textContent = item;
 			result.appendChild(li);
 		});
+
+	if (items.length) {
+		document.querySelector('body').classList.add('results-available');
+	}
 </script>
