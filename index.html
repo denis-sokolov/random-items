@@ -59,6 +59,13 @@
 
 	const items = (query('items') || urlString.replace(/&.+$/, ''))
 		.split(',')
+		.map(function(x){
+			try {
+				return decodeURLComponent(x);
+			} catch (err) {
+				return x;
+			}
+		})
 		.filter(function(x){ return x.trim(); });
 	const count = Math.min(items.length, query('count') || 1)
 
